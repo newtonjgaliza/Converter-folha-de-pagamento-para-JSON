@@ -12,6 +12,11 @@
       font-size: 0.9em;
       overflow-x: auto;
     }
+    .copy-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+    }
   </style>
 </head>
 <body class="bg-success bg-opacity-10">
@@ -20,15 +25,29 @@
       <div class="col-lg-8">
         <div class="alert alert-success text-center shadow">
           <h4 class="alert-heading">✅ Arquivo processado com sucesso!</h4>
-          <p>O seu arquivo JSON foi gerado com sucesso.</p>
-          <a href="{{ url_for('download_json', filename=filename) }}" class="btn btn-success">📥 Baixar JSON</a>
+          <p>O seu arquivo <strong>{{ filename }}</strong> foi processado com sucesso.</p>
+          <button onclick="copyToClipboard()" class="btn btn-success">📋 Copiar JSON</button>
           <a href="{{ url_for('index') }}" class="btn btn-outline-secondary ms-2">⬅ Voltar</a>
         </div>
 
-        <h5 class="mt-4">📄 Visualização do JSON gerado:</h5>
-        <pre>{{ json_data }}</pre>
+        <div class="position-relative">
+          <h5 class="mt-4">📄 Visualização do JSON gerado:</h5>
+          <pre id="json-content">{{ json_data }}</pre>
+        </div>
       </div>
     </div>
   </div>
+
+  <script>
+    function copyToClipboard() {
+      const jsonContent = document.getElementById('json-content').textContent;
+      navigator.clipboard.writeText(jsonContent).then(function() {
+        alert('JSON copiado para a área de transferência!');
+      }, function(err) {
+        console.error('Erro ao copiar: ', err);
+        alert('Erro ao copiar o JSON. Tente selecionar e copiar manualmente.');
+      });
+    }
+  </script>
 </body>
 </html>
