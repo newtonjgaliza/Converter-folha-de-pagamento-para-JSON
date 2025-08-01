@@ -1,1 +1,7 @@
-from app import app as application  # "application" é o nome esperado pela Vercel
+from flask import Flask, request, jsonify
+
+app = Flask(__name__)
+
+@app.route('/')
+def index():
+    return jsonify({"message": "Olá do Flask no Vercel!"})
